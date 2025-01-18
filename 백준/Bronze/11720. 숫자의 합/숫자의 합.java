@@ -8,7 +8,7 @@ public class Main {
         String str = br.readLine();
         int sum = 0;
         for(int i = 0 ; i<cnt; i++){
-            sum+=Integer.parseInt(String.valueOf(str.charAt(i)));
+            sum+=Character.getNumericValue(str.charAt(i));
         }
         System.out.println(sum);
     }
