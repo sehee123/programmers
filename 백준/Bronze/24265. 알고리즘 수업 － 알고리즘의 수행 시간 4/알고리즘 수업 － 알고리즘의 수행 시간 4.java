@@ -6,11 +6,7 @@ public class Main{
         
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         long n = Long.parseLong(br.readLine());
-        long sum = 0; 
-        for(int i = 1; i<n ; i++){
-            sum +=i;
-        }
-        System.out.println(sum);
+        System.out.println(n*(n-1)/2);
         System.out.print(2);
         
     }
