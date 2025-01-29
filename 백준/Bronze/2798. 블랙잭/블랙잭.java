@@ -7,7 +7,7 @@ public class Main {
         
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         String [] arr = br.readLine().split(" ");
-       int n = Integer.parseInt(arr[0]);
+        int n = Integer.parseInt(arr[0]);
         int m = Integer.parseInt(arr[1]);
 
         int [] card = new int [n];
@@ -16,18 +16,28 @@ public class Main {
         for(int i = 0; i<n ; i++){
            card [i] = Integer.parseInt(st.nextToken());
         }
-        int gap = Integer.MAX_VALUE;
-        for(int i = 0; i< n ; i++){
-            for(int j = 0; j < i; j++){
-                for(int k = 0; k < j; k++){
-                    int sum =  card[i] + card[j] + card[k];
-                    if(sum <= m && gap > (m - sum) ){
-                        gap = m - sum;
-                    }
+        
+        Arrays.sort(card);
+        int maxSum = 0; 
+        
+        for(int i = 0; i<n-2; i++){
+            
+            int left = i+1,right = n-1;
+            
+            while(left< right){
+                int sum = card[i] + card[left] + card[right]; 
+                if(sum == m){
+                  System.out.print(m);
+                  return;
+                }else if(sum < m){
+                    maxSum = Math.max(maxSum,sum);
+                    left ++ ; 
+                }else{
+                    right --;
                 }
             }
         }
-        System.out.print(m - gap);
+        System.out.print(maxSum);
     }
 
     
