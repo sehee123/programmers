@@ -4,14 +4,15 @@ public class Main {
     
     public static void main(String [] args)throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int n = Integer.parseInt(br.readLine());
+        String strN = br.readLine();
+        int n = Integer.parseInt(strN);
         br.close();
 
         int result= 0;
-
-        for(int i = 0; i<= n; i++){
+        
+        for(int i = n-(9*strN.length()); i<= n; i++){
             int num = i;
-            int res = 0 ;
+            int res = 0;
 
             while(num > 0){
                 res += num % 10 ;
