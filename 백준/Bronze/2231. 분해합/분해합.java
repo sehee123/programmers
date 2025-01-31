@@ -11,15 +11,13 @@ public class Main {
         int result= 0;
         
         for(int i = n-(9*strN.length()); i<= n; i++){
-            int num = i;
-            int res = 0;
-
-            while(num > 0){
-                res += num % 10 ;
-                num /= 10 ;
+            int sum = i ;
+            String strI = String.valueOf(i);
+            for(int j = 0; j<strI.length(); j++){
+                sum +=(strI.charAt(j)- '0');
             }
-
-            if(res + i == n ){
+            
+            if(sum == n ){
                 result =  i ;
                 break;
             }
