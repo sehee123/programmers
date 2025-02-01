@@ -8,15 +8,12 @@ public class Main {
         StringBuilder sb = new StringBuilder();
 
         int n = Integer.parseInt(br.readLine());
-        List<String> list = new ArrayList<>();
+        Set<String> set = new HashSet<>();
 
         for(int i = 0; i < n; i++){
-            String str = br.readLine();
-            if(!list.contains(str)){
-                list.add(str);
-            }
+           set.add(br.readLine());
         }
-
+        List <String> list = new ArrayList<>(set);
         list.sort(Comparator.comparingInt((String str) -> str.length())
                 .thenComparing(str -> str));
 
