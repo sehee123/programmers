@@ -11,17 +11,20 @@ public class Main {
            String [] arr = br.readLine().split(" ");
            int a = Integer.parseInt(arr[0]);
            int b = Integer.parseInt(arr[1]);
-           int min = Math.min(a,b);
-           int max = Math.max(a,b);
-           int tmp = max;
-           int idx = 1;
-           while(max%min != 0){
-               idx ++;
-               max = tmp*idx;
-           }
-           sb.append(max).append("\n");
+           
+           sb.append((a*b)/(gcd(a,b))).append("\n");
        }
 
         System.out.println(sb);
     }
+    
+    private static int gcd(int a , int b){
+        while(b > 0){
+        	int tmp = b;
+            b = a% b;
+            a = tmp;
+        }
+        return a; 
+    }
+    
 }
