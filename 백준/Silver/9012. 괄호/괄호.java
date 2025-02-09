@@ -9,18 +9,18 @@ public class Main {
         int n = Integer.parseInt(br.readLine());
         for(int i = 0; i< n; i++){
             String str = br.readLine();
-            Stack<Character>stack = new Stack<>();
-            
+            int sum = 0;
             for(int j = 0; j< str.length(); j++){
-                if(!stack.isEmpty() && ')' == str.charAt(j) ){
-                    if( stack.peek()=='('){
-                         stack.pop();
-                    }
+                if(str.charAt(j) == '('){
+                    sum++;
                 }else{
-                    stack.push(str.charAt(j));
+                    sum--;
+                }
+                if(sum < 0){
+                    break;
                 }
             }
-            if(stack.isEmpty()){
+            if(sum == 0){
                 sb.append("YES").append("\n");
             }else {
                 sb.append("NO").append("\n");
