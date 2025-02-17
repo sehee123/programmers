@@ -2,9 +2,9 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
-    
-    public static void main(String [] args)throws IOException{
-         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static int [][]dp = new int [30][30];
+    public static void main(String [] args)throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder sb = new StringBuilder();
         int t = Integer.parseInt(br.readLine());
         for(int i = 0; i<t; i++){
@@ -16,14 +16,11 @@ public class Main {
         }
         System.out.println(sb);
     }
-    private static long combination (int m, int n){
-        //m개에서 n개를 선택할 수 있는 경우의 수
-        long answer = 1;
-        for(int i = 0 ; i< n; i++){
-            answer *=(m-i);
-            answer /=(i+1);
-        }
-        return answer;
+    private static int combination(int m, int n){
+       if(dp[m][n] > 0) return dp[m][n];
+       if(n == 0 || m == n) return dp[m][n] = 1;
+       return dp[m][n] = combination(m-1,n-1) + combination(m-1,n);
+
     }
     
 }
