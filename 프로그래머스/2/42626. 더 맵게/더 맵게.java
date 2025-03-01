@@ -13,9 +13,11 @@ class Solution {
             int b = pq.poll();
             int sum = a + b*2;
             pq.offer(sum);
-            if(pq.size () == 1 && sum< K) return -1;
+            
             answer ++;
         }
+        
+        if(pq.size () == 1 && pq.peek()<K) answer = -1;
         
         return answer;
     }
