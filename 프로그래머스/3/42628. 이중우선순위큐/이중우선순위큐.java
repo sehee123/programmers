@@ -16,17 +16,10 @@ class Solution {
                 
                 maxPQ.offer(num);
                 minPQ.offer(num);
-            }else{
-                if(!maxPQ.isEmpty()){  
-                    if(arr[1].equals("1")){
-                        int max = maxPQ.poll();  
-                        minPQ.remove(max);
-                    }else {
-                        int min = minPQ.poll();  
-                        maxPQ.remove(min);
-                    }
-                }
-                
+            }else if(!maxPQ.isEmpty() && arr[1].equals("1")){  
+                minPQ.remove(maxPQ.poll());
+            }else if(!minPQ.isEmpty() && arr[1].equals("-1")){  
+                 maxPQ.remove(minPQ.poll());
             }
         }
         if(!maxPQ.isEmpty())answer[0]=maxPQ.peek();
