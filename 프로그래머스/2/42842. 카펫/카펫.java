@@ -3,25 +3,17 @@ class Solution {
     public int[] solution(int brown, int yellow) {
         
         int sum = brown + yellow;
-        List<Integer> list = new ArrayList<>();
+        
         for(int i = 1; i<=Math.sqrt(yellow); i++){
             if(yellow % i== 0){
-                int a = i; 
-                int b = yellow/i;
-                a+=2;
-                b+=2;
-                if(a*b == sum){
-                    list.add(a);
-                    list.add(b);
-                    break;
+                int height = i+2; 
+                int width = (yellow/i)+2;
+               
+                if(height*width == sum){
+                   return new int [] {width, height};
                 } 
             }
         }
-
-        return list
-            .stream()
-            .sorted(Comparator.reverseOrder())
-            .mapToInt(i->i)
-            .toArray();
+		return new int [0];
     }
 }
