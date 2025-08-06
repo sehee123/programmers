@@ -4,7 +4,7 @@ class Solution {
     public int solution(int[] nums) {
         
         
-        HashSet<Integer> typeCnt = new HashSet<>();
+        Set<Integer> typeCnt = new HashSet<>();
         
         for(int n : nums){
             typeCnt.add(n);
