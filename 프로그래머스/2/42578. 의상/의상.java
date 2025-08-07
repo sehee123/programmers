@@ -1,16 +1,19 @@
-import java.util.*; 
+import java.util.*;
+
 class Solution {
     public int solution(String[][] clothes) {
-        int answer = 1;
-        Map<String, Integer> categoryCnt = new HashMap<>();
-        for(int i = 0; i< clothes.length; i++){
-            int cnt = categoryCnt.getOrDefault(clothes[i][1],0);
-            categoryCnt.put(clothes[i][1], cnt+1);
+        
+        Map<String, Integer> categories = new HashMap<>();
+        
+        for(String cloth[]: clothes){
+            categories.put(cloth[1], categories.getOrDefault(cloth[1],0)+1);
         }
         
-        for(String key : categoryCnt.keySet()){
-            answer *=(categoryCnt.get(key)+1);
+        int answer = 1;
+        for(String category: categories.keySet()){
+            int cnt = categories.get(category);
+            answer = answer *(cnt+1);
         }
-        return answer-1;
+        return --answer;
     }
 }
