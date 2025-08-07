@@ -1,37 +1,42 @@
 import java.util.*;
+
 class Solution {
     public int[] solution(String[] genres, int[] plays) {
-        Map<String, Integer> genre = new HashMap<>();
-        Map<String , Map<Integer, Integer>> album = new HashMap<>();
-        for(int i = 0; i< genres.length; i++){
-            if(genre.containsKey(genres[i])){
-                genre.put(genres[i], genre.get(genres[i])+plays[i]);
-
-                album.get(genres[i]).put(i,plays[i]);
+        
+        
+        //장르별 count
+        Map<String, Integer> genreMap = new HashMap<>();
+        //장르,노래별 count
+        Map<String, Map<Integer,Integer>> musicCntMap = new HashMap<>();
+        
+        for(int i =0; i<genres.length; i++){
+            String genre = genres[i];
+            if(genreMap.containsKey(genre)){
+                genreMap.put(genre, genreMap.get(genre)+ plays[i]);
+                
+                musicCntMap.get(genre).put(i,plays[i]);
             }else{
-                genre.put(genres[i],plays[i]);
-
-                Map<Integer, Integer> map = new HashMap<>();
-                map.put(i, plays[i]);
-                album.put(genres[i] , map);
+                genreMap.put(genre, plays[i]);
+                
+                Map<Integer,Integer> music = new HashMap<>();
+                music.put(i, plays[i]);
+                musicCntMap.put(genre, music);
             }
         }
-
-        //정렬
-        List<String> keySet = new ArrayList<>(genre.keySet());
-        keySet.sort(Comparator.comparingInt(genre::get).reversed());
-
-        List <Integer> answer = new ArrayList<>();
-        for(String key : keySet){
-            Map<Integer,Integer> map = album.get(key);
-            List<Integer> list = new ArrayList<>(map.keySet());
-            list.sort(Comparator.comparingInt(map::get).reversed());
-            answer.add(list.get(0));
-            if(list.size()>1)answer.add(list.get(1));
-        }
-        return answer.stream()
-                     .mapToInt(i -> i)
-                     .toArray(); 
         
+        //정렬
+        List<String> genreKeys = new ArrayList<>(genreMap.keySet());
+        genreKeys.sort(Comparator.comparingInt(genreMap::get).reversed());
+        
+        List <Integer> answer = new ArrayList<>();
+        for(String genre : genreKeys){
+            Map<Integer, Integer> music = musicCntMap.get(genre);
+            List<Integer> musics = new ArrayList<>(music.keySet());
+            musics.sort(Comparator.comparingInt(music::get).reversed());
+            answer.add(musics.get(0));
+            if(musics.size()>1)answer.add(musics.get(1));
+        }
+        
+        return answer.stream().mapToInt(i ->i).toArray();
     }
 }
