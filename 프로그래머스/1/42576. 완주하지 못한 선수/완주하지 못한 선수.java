@@ -2,19 +2,19 @@ import java.util.*;
 
 class Solution {
     public String solution(String[] participant, String[] completion) {
-       
         
         Arrays.sort(participant);
         Arrays.sort(completion);
         
-        for(int i = 0; i<completion.length; i++){
+        int len = participant.length; 
+        
+        for(int i = 0; i< len-1; i++){
             if(!participant[i].equals(completion[i])){
                 return participant[i];
-            }    
+            }
         }
         
-        
-        return participant[participant.length-1];
-       
+        return participant[len -1];
+
     }
 }
