@@ -1,19 +1,22 @@
 import java.util.*;
+
 class Solution {
     public String solution(int[] numbers) {
-        
+       
         List<String> list = new ArrayList<>();
-        for(int i = 0; i<numbers.length; i++){
-             list.add(String.valueOf(numbers[i]));
+        for(int number: numbers){
+            list.add(String.valueOf(number));
         }
-        list.sort((s1,s2) -> (s2+s1).compareTo(s1+s2));
+        list.sort((s1,s2)-> {
+          return (s2+s1).compareTo(s1+s2); 
+        });
+        
+       
         StringBuilder sb = new StringBuilder();
-        for(String str : list){
-            sb.append(str);
+        for(String num : list ){
+            sb.append(num);
         }
-        if(list.get(0).equals("0")){
-            return "0";
-        }
+        if(list.get(0).equals("0")) return "0";
         return sb.toString();
     }
 }
