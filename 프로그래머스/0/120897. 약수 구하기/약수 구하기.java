@@ -3,14 +3,14 @@ class Solution {
     public int[] solution(int n) {
 
         List<Integer> list = new ArrayList<>();
-       
-        for(int i =1; i<=Math.sqrt(n); i++){
+
+        for(int i =1; i*i<=n; i++){
             if(n % i == 0){
                 list.add(i);
-                list.add(n/i);
+                if( n / i != i)list.add(n/i);
             }
         }
         
-        return list.stream().mapToInt(Integer::intValue).distinct().sorted().toArray();
+        return list.stream().mapToInt(Integer::intValue).sorted().toArray();
     }
 }
