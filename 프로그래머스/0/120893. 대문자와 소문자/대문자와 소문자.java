@@ -7,15 +7,12 @@ class Solution {
             
             char c = my_string.charAt(i);
             
-            int ascii = (int)c;
-            
-            if(ascii >= 65 && ascii<= 90){
-                ascii += 32;
+            if(Character.isUpperCase(c)){
+                sb.append(Character.toLowerCase(c));
             }else {
-                 ascii -= 32;
+                sb.append(Character.toUpperCase(c));
             }
-           
-            sb.append((char)(ascii));
+          
         }
         
         return sb.toString();
