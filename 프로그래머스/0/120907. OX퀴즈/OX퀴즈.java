@@ -4,30 +4,15 @@ class Solution {
         String[] result = new String [len];
         
         for(int i =0; i<len; i++){
-            String str = quiz[i];
-            String [] array = str.split(" ");
+            String [] array = quiz[i].split(" ");
             
             int x = Integer.parseInt(array[0]);
-            String operator = array[1];
+            String op = array[1];
             int y = Integer.parseInt(array[2]);
             int z = Integer.parseInt(array[4]);
-            
-            
-            int caculation = 0;
-            switch (operator){
-                case "+":
-                    caculation= x + y ;
-                    break;
-                case "-":
-                    caculation = x- y;
-                    break;
-            }
-            if(caculation == z){
-                result [i] = "O";
-            }else{
-                result [i] = "X";
-            }
-            
+
+            int calc = op.equals("+")?x+y :x-y;
+            result[i] = calc==z?"O":"X";
         }
         
         return result;
