@@ -1,6 +1,6 @@
 # [level 1] 평균 일일 대여 요금 구하기 - 151136 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/151136?language=oracle) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/151136) 
 
 ### 성능 요약
 
@@ -16,7 +16,7 @@ Empty
 
 ### 제출 일자
 
-2025년 02월 07일 14:57:40
+2026년 02월 26일 15:54:51
 
 ### 문제 설명
 
