@@ -1,7 +1,7 @@
--- -- 코드를 입력하세요
+-- 코드를 입력하세요
 SELECT a.flavor 
-from first_half a , icecream_info b
+from icecream_info a, first_half b
 where a.flavor = b.flavor
-and b.ingredient_type = 'fruit_based'
-and a.total_order>3000
-order by a.total_order desc;
+and b.total_order > 3000
+and a.ingredient_type = 'fruit_based'
+order by b.total_order desc
