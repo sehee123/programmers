@@ -4,26 +4,26 @@ class Solution {
     public int[] solution(String[] operations) {
         int[] answer = {0,0};
         
-        PriorityQueue <Integer> maxPQ = new PriorityQueue<>(Collections.reverseOrder());
-        PriorityQueue <Integer> minPQ = new PriorityQueue<>();
+        PriorityQueue<Integer> maxPq = new PriorityQueue<>(Collections.reverseOrder());
+        PriorityQueue<Integer> minPq = new PriorityQueue<>();
         
-        for(String str : operations){
-            
-            String [] arr = str.split(" "); 
-            
+        for(String operation : operations){
+            String [] arr = operation.split(" ");
             if(arr[0].equals("I")){
-                int num = Integer.parseInt(arr[1]);
+                maxPq.add(Integer.parseInt(arr[1]));
+                minPq.add(Integer.parseInt(arr[1]));
+            }else{
+                if(!maxPq.isEmpty()){
+                    if(arr[1].equals("1")){
+                        minPq.remove(maxPq.poll());
+                    }else{
+                        maxPq.remove(minPq.poll());
+                    }
+                }
                 
-                maxPQ.offer(num);
-                minPQ.offer(num);
-            }else if(!maxPQ.isEmpty() && arr[1].equals("1")){  
-                minPQ.remove(maxPQ.poll());
-            }else if(!minPQ.isEmpty() && arr[1].equals("-1")){  
-                 maxPQ.remove(minPQ.poll());
             }
         }
-        if(!maxPQ.isEmpty())answer[0]=maxPQ.peek();
-        if(!minPQ.isEmpty())answer[1]=minPQ.peek();
+        if(!maxPq.isEmpty()) return new int [] {maxPq.peek(), minPq.peek()};
         return answer;
     }
 }
