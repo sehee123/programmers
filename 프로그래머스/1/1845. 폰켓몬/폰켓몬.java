@@ -1,19 +1,17 @@
 import java.util.*;
+
 class Solution {
     public int solution(int[] nums) {
-        int len = nums.length;
-        int max = len/2;
-        int answer = 1;
         
-        Arrays.sort(nums);
+        Set<Integer> set = new HashSet<>();
         
-        for(int i =1; i<len; i++){
-            if(answer == max)return answer;
-            if(nums[i] != nums[i-1]){
-                answer ++;
-            }
+        int limit  = nums.length/2;
+        
+        for(int num: nums){
+            set.add(num);
+            if(set.size() == limit)return limit;
         }
         
-        return answer;
+        return set.size();
     }
 }
