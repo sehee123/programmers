@@ -2,43 +2,38 @@ import java.util.*;
 
 class Solution {
     public int solution(int[][] maps) {
+        int answer = -1;
         
-        //size
         int n = maps.length;
         int m = maps[0].length;
         
-        //bfs
-        Queue <int []> queue = new LinkedList<>();
-        queue.offer(new int [] {0,0,1});
+        Queue <int []> q = new LinkedList<>();
+        q.offer(new int []{0,0});
         
-        //방문 여부
-        boolean [][] visited = new boolean[n][m];
-        visited [0][0] = true;
         
-        //동서남북
         int [] dx = {1,-1,0,0};
-        int [] dy = {0,0,-1,1};
+        int [] dy = {0,0,1,-1};
         
-        while(!queue.isEmpty()){
-            int [] arr = queue.poll();
-            int row = arr[0];
-            int col = arr[1];
-            int cnt = arr[2];
+        while(!q.isEmpty()){
+           int [] array =  q.poll();
+            int x = array[0];
+            int y = array[1];
             
-            if(row == n-1 && col == m-1){
-                return cnt;
-            }
+            if(x == n-1 && y == m-1) return maps[n-1][m-1];
             
-            for(int i =0; i<4; i++){
-                int x = row +dx[i];
-                int y = col +dy[i];
-                if(x>=0 && y>=0 && x<n && y<m && maps[x][y] ==1 && !visited[x][y]){
-                    queue.offer(new int [] {x,y,cnt+1});
-                    visited[x][y] = true;
+            for(int i = 0; i<4; i++){
+                int nx = x + dx[i];
+                int ny = y + dy[i];
+                
+                if(nx == n || ny == m || nx < 0 || ny < 0)continue;
+                
+                if(maps[nx][ny] == 1){
+                    maps[nx][ny] = maps[x][y]+1;
+                    q.offer(new int []{nx,ny});
                 }
             }
         }
         
-        return -1;
+        return answer;
     }
 }
