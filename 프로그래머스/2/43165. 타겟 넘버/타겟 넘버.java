@@ -1,17 +1,20 @@
 class Solution {
-       
-    static int answer = 0;
+    static int answer;
+
     public int solution(int[] numbers, int target) {
-        dfs(numbers, target, 0 , 0);
+        answer = 0;
+        dfs(numbers,target,0,0);
         return answer;
     }
     
-    private static void dfs(int [] numbers , int target  , int cur, int sum){
-        if(cur == numbers.length ){
-            if(sum == target)answer ++;
+    private void dfs(int[] numbers, int target, int idx, int sum){
+        //1. stop 
+        if(idx == numbers.length){
+            if(sum == target)answer++;
             return;
         }
-            dfs(numbers , target  ,cur+1, sum +numbers[cur]);
-            dfs(numbers , target  ,cur+1, sum -numbers[cur]);
+        //2. 실행
+        dfs(numbers,target, idx+1, sum + numbers[idx]);
+        dfs(numbers,target, idx+1, sum - numbers[idx]);
     }
 }
