@@ -1,22 +1,20 @@
 import java.util.*;
-
 class Solution {
     public String solution(int[] numbers) {
-       
-        List<String> list = new ArrayList<>();
-        for(int number: numbers){
-            list.add(String.valueOf(number));
-        }
-        list.sort((s1,s2)-> {
-          return (s2+s1).compareTo(s1+s2); 
-        });
+        String answer = "";
         
-       
-        StringBuilder sb = new StringBuilder();
-        for(String num : list ){
-            sb.append(num);
+        String [] result = Arrays.stream(numbers)
+            .mapToObj(String::valueOf)
+            .sorted((a,b)-> (b+a).compareTo(a+b))
+            .toArray(String[]::new);
+        
+        if(result[0].equals("0"))return "0";
+        
+        StringBuffer sb = new StringBuffer();
+        for(String number : result){
+            sb.append(number);
         }
-        if(list.get(0).equals("0")) return "0";
+        
         return sb.toString();
     }
 }
