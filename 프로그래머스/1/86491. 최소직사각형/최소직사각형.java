@@ -1,18 +1,23 @@
-import java.util.*;
-
 class Solution {
     public int solution(int[][] sizes) {
         int answer = 0;
-        int max = 0; 
-        int min = 0; 
-        for(int i =0; i< sizes.length; i++){
-            int max_val = Math.max(sizes[i][0],sizes[i][1]);
-            int min_val = Math.min(sizes[i][0],sizes[i][1]);
-            
-            max = Math.max(max,max_val);
-            min = Math.max(min,min_val);
+        int [][] compares = new int [sizes.length][2];
+        
+        for(int i =0; i<sizes.length; i++){
+            int w = sizes[i][0];
+            int h = sizes[i][1];
+            compares[i][0] = Math.max(w,h);
+            compares[i][1] = Math.min(w,h);
         }
         
-        return max*min;
+        int w_max = 0;
+        int h_max = 0;
+        
+        for(int [] compare : compares){
+            w_max = Math.max(compare[0],w_max);
+            h_max = Math.max(compare[1],h_max);
+        }
+        
+        return w_max * h_max;
     }
 }
