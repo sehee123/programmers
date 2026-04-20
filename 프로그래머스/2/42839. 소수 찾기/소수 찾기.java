@@ -2,44 +2,42 @@ import java.util.*;
 
 class Solution {
     
-    static Set<Integer> set = new HashSet<>();
+    Set<Integer> numberSet = new HashSet<>();
     
     public int solution(String numbers) {
         int answer = 0;
         
-        char [] arr = numbers.toCharArray();
-        boolean[] visited = new boolean [arr.length];
-        dfs(arr,visited , "",0);
-        
-        for(int num : set){
-            if(isPrime(num))answer++;
+        //1.숫자 조합 
+        dfs("",numbers);
+        //2.소수 판별
+       Iterator<Integer> it = numberSet.iterator();
+        while(it.hasNext()){
+            int number = it.next();
+           
+            if(isPrime(number))
+                answer++;
         }
         
         return answer;
     }
-    public static void dfs (char [] arr , boolean [] visited , String match , int depth){
+    
+    public void dfs(String comb, String others){
+        if(!comb.equals(""))numberSet.add(Integer.valueOf(comb));
         
-        if(!match.isEmpty()){
-            set.add(Integer.parseInt(match));
-        }
-        
-        if(arr.length == depth) return;
-        
-        for(int i = 0; i<arr.length; i++){
-            if(!visited[i]){
-                visited[i] = true;
-                dfs(arr,visited , match+arr[i], depth+1);
-                visited[i] = false;
-            }
+        for(int i = 0; i<others.length(); i++){
+            dfs(comb+others.charAt(i), others.substring(0,i)+others.substring(i+1));
         }
         
     }
     
-    public static boolean isPrime(int num){
-        if(num<2)return false;
-        for(int i = 2; i<=Math.sqrt(num) ; i++){
-            if(num % i == 0) return false;
+    public boolean isPrime(int number){
+        if(number < 2) return false;
+        int lim = (int)Math.sqrt(number);
+         
+        for(int i=2; i<=lim ; i++){
+            if(number%i == 0) return false;
         }
+       
         return true;
     }
 }
