@@ -1,24 +1,32 @@
+import java.util.*;
+
 class Solution {
-    
-    static int answer = 0;
-    
+   
+    boolean [] visited ;
+    int answer;
     public int solution(int k, int[][] dungeons) {
+        answer = 0;
+        visited = new boolean [dungeons.length];
         
-        boolean [] visited = new boolean[dungeons.length];
-
-        dfs(dungeons,k, visited, 0);
-
+       
+        dfs(k,dungeons,0);
+        
         
         return answer;
+        
     }
     
-    public static void dfs(int [][] dungeons, int k  , boolean [] visited, int depth ){
-        answer = Math.max(answer , depth);
-        for(int i = 0; i< dungeons.length; i++){
-            if(!visited[i] && dungeons[i][0] <=k){
-                visited[i]= true;
-                dfs(dungeons, k-dungeons[i][1] , visited, depth+1);
-                visited[i] = false;
+    public void dfs(int k,int[][] dungeons,int count){
+
+        answer = Math.max(answer, count);
+        if(count == dungeons.length) return;
+        
+        for(int i = 0; i<dungeons.length; i++){
+           
+            if(!visited[i] && k>=dungeons[i][0]){
+                visited[i] = true;
+                dfs(k-dungeons[i][1],dungeons,count+1);
+                visited[i] = false; 
             }
         }
     }
