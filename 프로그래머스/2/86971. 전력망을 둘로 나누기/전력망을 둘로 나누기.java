@@ -17,8 +17,8 @@ class Solution {
         
         
         for(int[]wire:wires){
-            wireMap.put(wire[0],removeFromList(wire[1],wireMap.get(wire[0])));
-            wireMap.put(wire[1],removeFromList(wire[0],wireMap.get(wire[1])));
+            removeFromList(wire[1],wireMap.get(wire[0]));
+            removeFromList(wire[0],wireMap.get(wire[1]));
             
             visited = new boolean [n+1];
             
@@ -26,8 +26,8 @@ class Solution {
             
             answer = Math.min(answer , Math.abs(count - (n-count)));
             
-            wireMap.put(wire[0],addFromList(wire[1],wireMap.get(wire[0])));
-            wireMap.put(wire[1],addFromList(wire[0],wireMap.get(wire[1])));     
+            addFromList(wire[1],wireMap.get(wire[0]));
+            addFromList(wire[0],wireMap.get(wire[1]));     
         }
     
         return  answer;
