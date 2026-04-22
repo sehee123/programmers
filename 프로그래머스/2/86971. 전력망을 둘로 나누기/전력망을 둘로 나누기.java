@@ -1,50 +1,61 @@
 import java.util.*;
+
 class Solution {
+    boolean [] visited; 
+   
     public int solution(int n, int[][] wires) {
+        int answer = Integer.MAX_VALUE;
         
-        List<List<Integer>> graph = new ArrayList<>();
+        Map<Integer, List<Integer> > wireMap = new HashMap<>();
         
-        for(int i = 0; i<=n; i++){
-            graph.add(new ArrayList<>());
-        }
-        for(int []wire : wires){
-            graph.get(wire[0]).add(wire[1]);
-            graph.get(wire[1]).add(wire[0]);
-        }
-        
-        int minDiff = Integer.MAX_VALUE; 
-        
-        for(int [] wire : wires){
-            int nodeA = wire[0];
-            int nodeB = wire[1];
-            
-            graph.get(nodeA).remove(Integer.valueOf(nodeB)); 
-            graph.get(nodeB).remove(Integer.valueOf(nodeA));
-            //remove(int idx);
-            //remove(Object obj); 차이점 
-            boolean [] visited = new boolean [n+1];
-            int cnt = dfs(nodeA , graph,visited);
-            
-            int diff = Math.abs(n - cnt - cnt );
-            minDiff = Math.min(minDiff , diff);
-            
-            graph.get(nodeA).add(nodeB); 
-            graph.get(nodeB).add(nodeA);
+        for(int[] wire : wires){
+            List<Integer> list = new ArrayList<>();
+            wireMap.computeIfAbsent(wire[0],k -> new ArrayList<>()).add(wire[1]);
+            wireMap.computeIfAbsent(wire[1],k -> new ArrayList<>()).add(wire[0]);
         }
         
         
-        return minDiff;
+        
+        for(int[]wire:wires){
+            wireMap.put(wire[0],removeFromList(wire[1],wireMap.get(wire[0])));
+            wireMap.put(wire[1],removeFromList(wire[0],wireMap.get(wire[1])));
+            
+            visited = new boolean [n+1];
+            
+            int count = dfs(1,wireMap);
+            
+            answer = Math.min(answer , Math.abs(count - (n-count)));
+            
+            wireMap.put(wire[0],addFromList(wire[1],wireMap.get(wire[0])));
+            wireMap.put(wire[1],addFromList(wire[0],wireMap.get(wire[1])));     
+        }
+    
+        return  answer;
     }
-    public static int dfs(int node , List<List<Integer>> graph , boolean [] visited){
-        visited[node] = true;
-        int cnt = 1; 
+    
+    public int dfs(int start , Map<Integer,List<Integer>> wireMap){
+        List<Integer> nodeList = wireMap.get(start);
+        visited[start] = true;
+        int count = 1;
         
-        for(int neighbor :graph.get(node)){
-            if(!visited[neighbor]){
-                cnt+=dfs(neighbor,graph,visited);
+        for(Integer node : nodeList){
+            if(!visited[node]){
+                count += dfs(node, wireMap);
             }
         }
         
-        return cnt ;
+        return count;
     }
+    
+    public List<Integer> removeFromList(int node, List<Integer> nodeList){
+        nodeList.remove(Integer.valueOf(node));
+        return nodeList;
+    }
+    
+    public List<Integer> addFromList(int node, List<Integer> nodeList){
+        nodeList.add(node);
+        return nodeList;
+    }
+    
+    
 }
