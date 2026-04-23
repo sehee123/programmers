@@ -1,20 +1,24 @@
 class Solution {
-    static int answer;
-
+    
+    int count = 0; 
+    int number = 0;
+    boolean [] visited ;
+    
     public int solution(int[] numbers, int target) {
-        answer = 0;
-        dfs(numbers,target,0,0);
-        return answer;
+        visited = new boolean [numbers.length];
+        number = target;
+        dfs(numbers, 0,0);
+        return count;
     }
     
-    private void dfs(int[] numbers, int target, int idx, int sum){
-        //1. stop 
-        if(idx == numbers.length){
-            if(sum == target)answer++;
+    public void dfs(int [] numbers, int sum, int idx){
+        if(idx==numbers.length){
+            if(sum == number)count ++;
             return;
         }
-        //2. 실행
-        dfs(numbers,target, idx+1, sum + numbers[idx]);
-        dfs(numbers,target, idx+1, sum - numbers[idx]);
+        
+        
+        dfs(numbers, sum+numbers[idx], idx+1);
+        dfs(numbers, sum-numbers[idx], idx+1);
     }
 }
