@@ -1,18 +1,32 @@
 import java.util.*;
+
 class Solution {
-    static List<String> list = new ArrayList<>();
+    int count = 0;
+    int answer = 0;
+    String target;
     public int solution(String word) {
-        int answer = 0;
-        String [] strArr = {"A","E","I","O","U"};
-        dfs("",0,strArr);
-        return list.indexOf(word)+1;
+        
+        target = word;
+        String [] alphabet = {"A","E","I","O","U"};
+        dfs(alphabet , "");
+        
+        return answer;
     }
-    public static void dfs(String str , int len, String [] strArr){
-        if(!str.isEmpty())list.add(str);
-        if(len == 5) return;
-        for(int i = 0; i < 5; i++){
-            dfs(str + strArr[i], len +1, strArr);
+    
+    public void dfs (String[] alphabet, String comb){
+        
+         if(comb.equals(target)){
+            answer = count;
+            return;
         }
         
-    }
+        if(comb.length()==5) return;
+       
+        for(int i = 0; i<5; i++){
+           
+            count++;
+            dfs(alphabet, comb+alphabet[i]);
+            
+        }
+    } 
 }
