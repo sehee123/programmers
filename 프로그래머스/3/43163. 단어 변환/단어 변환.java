@@ -1,40 +1,39 @@
-import java.util.*;
-
 class Solution {
     public int solution(String begin, String target, String[] words) {
         int answer = 0;
         
-        Queue<String []> q = new LinkedList<>();
-        q.offer(new String []{begin, "0"});
+        for(String word: words){
+           if(word.equals(target)){
+               answer ++;
+           }
+        }
+        if(answer == 0) return 0; 
         
-        boolean [] visited = new boolean [words.length];
+        answer --;
         
-        while(!q.isEmpty()){
-            String [] arr = q.poll();
-            String current = arr[0];
-            
-            int cnt = Integer.parseInt(arr[1]);
-           
-            if(target.equals(current))return cnt;
-            
-            for(int i = 0; i<words.length; i++){
-                if(visited[i])continue;
-               
-                String word = words[i];
-                int diff = 0; 
-                for(int j = 0; j<word.length(); j++){
-                    if(current.charAt(j) != word.charAt(j)){
-                        diff ++; 
-                    }
-                }
-                
-                if(diff == 1){
-                    q.offer(new String []{word,  String.valueOf(++cnt)});
-                    visited[i] = true; 
-                }
+        
+        for(String word: words){
+            if(valid(begin,target)){
+                System.out.println(begin + " : " + target);
+                return ++answer;
             }
+            if(valid(begin, word)){
+                answer ++;
+                begin = word;
+            }
+            
         }
         
         return answer;
+    }
+    
+    public boolean valid(String word, String nextWord){
+        //알파벳 1개만 바꿔서 nextWord 가 될 수있는지 확인
+        int count = 0; 
+        for(int i =0; i<word.length(); i++){
+            if(word.charAt(i) != nextWord.charAt(i))count++;
+            if(count>1) return false;
+        }
+        return true;
     }
 }
