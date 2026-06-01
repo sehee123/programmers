@@ -1,47 +1,53 @@
 import java.util.*;
+
 class Solution {
     public int solution(int n, int[][] edge) {
+        int answer = 0;
         
-        
-        List<List<Integer>> graph = new ArrayList<>();
+        List<List<Integer>> nodeList = new ArrayList<>();
+        int [] distance = new int [n+1];
+        boolean [] visited = new boolean[n+1];
         
         for(int i = 0; i<=n; i++){
-            graph.add(new ArrayList<>());
+            nodeList.add(new ArrayList<Integer>());
         }
-        
         
         for(int [] e : edge){
-            graph.get(e[0]).add(e[1]);
-            graph.get(e[1]).add(e[0]);
+            int a = e[0];
+            int b = e[1];
+            
+            nodeList.get(a).add(b);
+            nodeList.get(b).add(a);
         }
         
-        int [] distances = new int [n+1];
-        Arrays.fill(distances, -1);
+        Queue<Integer> q = new LinkedList<>();
+        q.offer(1);
+        visited[1] = true;
         
-        Queue<Integer> queue = new LinkedList<>();
-        distances[1] = 0;
-        queue.offer(1);
-        
-        while(!queue.isEmpty()){
-            int current = queue.poll();
-            for(int next : graph.get(current)){
-                if(distances[next] == -1){
-                    distances[next] = distances[current] +1;
-                    queue.offer(next);
+        while(!q.isEmpty()){
+            int current = q.poll();
+           
+            List<Integer> nexts = nodeList.get(current);
+            for(Integer next : nexts){
+                
+                if(!visited[next]){
+                    visited[next] = true;
+                    distance[next] = distance[current]+1;
+                    q.offer(next);
                 }
-            }
+            }  
+        }
+        int max = 0;
+        for(int i =1 ;i<=n; i++){
+            int d = distance[i];
+             System.out.println(d);
+            max = Math.max(d, max);
         }
         
-        int maxDist = 0 ,count = 0;
-        for(int dist : distances){
-            if(dist > maxDist){
-                maxDist = dist;
-                count = 1;
-            }else if(dist == maxDist){
-                count ++;
-            }
+        for(int d : distance){
+            if(max == d) answer++;
         }
-        
-        return count;
+
+        return answer;
     }
 }
