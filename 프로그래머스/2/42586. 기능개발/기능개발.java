@@ -1,28 +1,31 @@
 import java.util.*;
+
 class Solution {
     public int[] solution(int[] progresses, int[] speeds) {
         
-        List<Integer> list = new ArrayList<>();
-        int cnt = 0; 
-        int maxDay = 0; 
-        for(int i = 0; i<progresses.length; i++){
-            int day = (100 -progresses[i])/speeds[i]; 
-            if((100 -progresses[i])%speeds[i] != 0){
-                day ++;
-            }
-            if(maxDay == 0)maxDay = day;
-            if(maxDay >= day ){
-                cnt ++;
-            }else{
-                maxDay = day;
-                list.add(cnt);
-                cnt = 1;
-            }   
-        }
-        list.add(cnt);
+        List<Integer> answer = new ArrayList<>();
         
-        return list.stream()
-                        .mapToInt(Integer::intValue)
-                        .toArray();
+        int [] days = new int [progresses.length];
+        
+        for(int i = 0; i<progresses.length; i++){
+            int day = (100-progresses[i])/speeds[i];
+            if((100-progresses[i])%speeds[i]!=0) day++;    
+            days[i] = day;
+        }
+        
+        int workCount = 1;
+        int maxDay = days[0];
+        for(int i =1; i<days.length; i++){
+            if(maxDay>=days[i]){
+                workCount ++;
+            }else{
+                answer.add(workCount);
+                workCount = 1;
+                maxDay = days[i];
+            }
+        }
+        answer.add(workCount);
+        
+        return answer.stream().mapToInt(i->i).toArray();
     }
 }
