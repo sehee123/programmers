@@ -1,45 +1,60 @@
 import java.util.*;
 
-class Solution {
-    private static class Song{
-
-        int idx;
-        int plays;
-        
-        Song(int idx, int plays){
-            this.idx = idx; 
-            this.plays =plays;
-        }
-
-    }
-    public int[] solution(String[] genres, int[] plays) {
+class Genre {
+    String name;
+    int count;
     
-        Map<String, Integer> genreTotal = new HashMap<>();
-        Map<String, List<Song>> byGenre = new HashMap<>();
+    public Genre (String name , int count){
+        this.name = name;
+        this.count = count;
+    }
+}
+
+class Solution {
+    
+    public int[] solution(String[] genres, int[] plays) {
         
-        for(int i =0; i<genres.length; i++){
-            String genre = genres[i];
-            int play = plays[i];
+        int len = genres.length;
+        
+        Map<String,Integer> genreCount = new HashMap<>();
+        Map<String,PriorityQueue<int []>> songOrderBy = new HashMap<>();
+        
+        for(int i =0; i<len; i++){
+            String key = genres[i];
             
-            genreTotal.put(genre, genreTotal.getOrDefault(genre,0)+plays[i]);
-            byGenre.computeIfAbsent(genre, k-> new ArrayList<>()).add(new Song(i, play));
+            genreCount.put(key, genreCount.getOrDefault(key,0)+plays[i]);
+            songOrderBy.computeIfAbsent(key, k-> 
+                                       new PriorityQueue<>((p1,p2) -> {
+                //재생 횟수 
+                if(p1[0] != p2[0]) return Integer.compare(p2[0],p1[0]);
+                //고유번호 
+                return Integer.compare(p1[1],p2[1]);
+            })).offer(new int []{plays[i],i}); 
         }
         
-        List<String> genreOrder = new ArrayList<>(genreTotal.keySet());
-        genreOrder.sort((a,b)-> genreTotal.get(b) - genreTotal.get(a));
+        PriorityQueue<Genre> genreOrderBy = new PriorityQueue<>((g1,g2)-> Integer.compare(g2.count,g1.count));
+        
+        for(Map.Entry<String,Integer> entry :genreCount.entrySet()){
+            genreOrderBy.offer(new Genre(entry.getKey(),entry.getValue()));
+        }
         
         List<Integer> answer = new ArrayList<>();
-        for(String genre: genreOrder){
-            List<Song> songs = byGenre.get(genre);
-            songs.sort((s1,s2) -> {
-                if(s1.plays != s2.plays) return s2.plays-s1.plays; 
-                return s1.idx - s2.idx; 
-            });
-            for(int k = 0; k<songs.size() && k<2; k++){
-                answer.add(songs.get(k).idx);
-            }
-        }
-        return answer.stream().mapToInt(i -> i).toArray();
         
+        while(!genreOrderBy.isEmpty()){
+            
+            Genre g = genreOrderBy.poll();
+            
+            PriorityQueue<int []> pq = songOrderBy.get(g.name);
+            
+            int count = 0;
+            
+            while(!pq.isEmpty() && count <2){
+                count ++;
+                answer.add(pq.poll()[1]);
+            }
+            
+        }
+        
+        return answer.stream().mapToInt(k->k).toArray();
     }
 }
