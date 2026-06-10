@@ -1,20 +1,26 @@
 import java.util.*;
-
 class Solution {
     public String solution(String[] participant, String[] completion) {
+        String answer = "";
         
-        Arrays.sort(participant);
-        Arrays.sort(completion);
+        Map<String,Integer> checkMap = new HashMap<>();
+        for(String p : participant){
+            checkMap.put(p, checkMap.getOrDefault(p,0)+1);
+        }
         
-        int len = participant.length; 
-        
-        for(int i = 0; i< len-1; i++){
-            if(!participant[i].equals(completion[i])){
-                return participant[i];
+        for(String c : completion){
+            int count = checkMap.get(c);
+            if(count ==1){
+                checkMap.remove(c);
+            }else{
+                checkMap.put(c, count-1);
             }
         }
         
-        return participant[len -1];
-
+        for(String key : checkMap.keySet()){
+            answer = key;
+        }
+        
+        return answer;
     }
 }
