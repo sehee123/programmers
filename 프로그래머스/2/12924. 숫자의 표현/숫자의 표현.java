@@ -2,14 +2,21 @@ class Solution {
     public int solution(int n) {
         int answer = 0;
         
-        for(int i = 1; i<= n; i ++){
-            int sum = 0; 
-            for(int j = i; j<=n; j++){
-                sum +=j;
-                if(sum >= n)break;
-            }
-            if(sum ==n){
+        int start = 1;
+        int end = 1; 
+        int sum = 1; 
+        
+        while(start <=n){
+            if(sum < n){
+                end ++;
+                sum += end;
+            }else if(sum > n){
+                sum -= start;
+                start ++;
+            }else {
                 answer ++;
+                end ++;
+                sum += end;
             }
         }
         
