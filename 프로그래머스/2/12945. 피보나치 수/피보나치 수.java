@@ -8,6 +8,6 @@ class Solution {
             num[i] = (num[i-1] + num[i-2])%1234567;
         }
         
-        return num[n]%1234567;
+        return num[n];
     }
 }
