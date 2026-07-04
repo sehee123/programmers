@@ -1,23 +1,14 @@
-import java.util.*;
+
 class Solution {
     public int solution(int[] arr) {
         
-        if(arr.length ==1) return arr[0];
+        int currentLcm = arr[0];
         
-        int answer = 0;
-        
-        Arrays.sort(arr);
-        int lcm = lcm(arr[0],arr[1]);
-        
-        for(int i =1; i<arr.length-1; i++){
-            int a = lcm ;
-            int b = arr[i+1];
-            
-            lcm = lcm(a,b);
-            
+        for(int i =1; i<arr.length; i++){
+            currentLcm = lcm(currentLcm,arr[i]);
         }
         
-        return lcm;
+        return currentLcm;
     }
     
     public int gcd(int a, int b){
