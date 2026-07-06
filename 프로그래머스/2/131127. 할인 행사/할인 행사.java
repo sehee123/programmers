@@ -19,7 +19,7 @@ class Solution {
         
         if(wantMap.equals(discountMap))answer ++;
         
-        for(int i =1; i<discount.length; i++){
+        for(int i =1; i<=discount.length-10; i++){
 
             String prevItem = discount[i-1];
 
@@ -32,12 +32,12 @@ class Solution {
                 }
             }
             
-            if(i+9 < discount.length){
-                String nextItem = discount[i+9];
-                if(wantMap.containsKey(nextItem)){
-                    discountMap.put(nextItem, discountMap.getOrDefault(nextItem,0)+1);
-                }
+            
+            String nextItem = discount[i+9];
+            if(wantMap.containsKey(nextItem)){
+                discountMap.put(nextItem, discountMap.getOrDefault(nextItem,0)+1);
             }
+           
             if(wantMap.equals(discountMap))answer ++;
         }
         
