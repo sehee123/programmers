@@ -3,9 +3,14 @@ class Solution {
     public int solution(String s) {
         int answer = 0;
         
+        Map<Character,Character> brackets = new HashMap<>();
+        brackets.put(')', '(');
+        brackets.put(']', '[');
+        brackets.put('}', '{');
+        
         for(int i=0; i<s.length(); i++){
              char firstC = s.charAt(0);
-             if(firstC == ')' || firstC == '}' || firstC==']'){
+             if(brackets.containsKey(firstC)){
                  s = sliceString(s);
                  continue;
              }
@@ -16,13 +21,10 @@ class Solution {
                 
                 char c = s.charAt(j);
                 
-                if(c == ')' || c == '}' || c==']'){
+                if(brackets.containsKey(c)){
                     if(!stack.isEmpty()){
                         char lastC = stack.peek();
-                        if((lastC == '(' && c == ')') ||
-                          (lastC == '[' && c == ']') ||
-                           (lastC == '{' && c == '}')
-                          ){
+                        if(lastC == brackets.get(c)){
                             stack.pop();
                         }
                     }
