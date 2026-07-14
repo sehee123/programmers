@@ -1,72 +1,64 @@
 import java.util.*;
 
 class Solution {
+    
+    //좌표 두배
+    static int MAX_VALUE = 101;
     public int solution(int[][] rectangle, int characterX, int characterY, int itemX, int itemY) {
         int answer = 0;
         
-        // ㄷ 자에서 아래에서 위로 바로 점프하는 함정때문에 2배를 해준다. 
-        boolean [][] visited = new boolean [102][102];
-        boolean [][] maps = new boolean [102][102];
+        int [][] board = new int [MAX_VALUE][MAX_VALUE];
         
-        visited[characterX*2][characterY*2] = true; 
-   
-        //1. true 로 테두리 채우기 
+        //테두리 칠하기
         for(int [] r : rectangle){
-            int minX = r[0]*2;
-            int minY = r[1]*2; 
-            
-            int maxX = r[2]*2;
-            int maxY = r[3]*2;
-            
-            for(int i = minX ; i<=maxX ; i++){
-                for(int j= minY; j<=maxY; j++){
-                    maps[i][j] = true;
+            //2배 줌
+            int x1 = r[0]*2;
+            int x2 = r[2]*2;
+            int y1 = r[1]*2;
+            int y2 = r[3]*2;
+            for(int i =x1; i<=x2; i++){
+                for(int j =y1; j<=y2; j++){
+                    if((i==x1||i== x2||j==y1||j==y2) && board[i][j]!=2){
+                        board[i][j] = 1;
+                    }else{
+                        board[i][j] = 2;
+                    } 
                 }
             }
         }
         
-        //2. false 로 내부는 지우기 
-        for(int [] r: rectangle){
-            int minX = r[0]*2;
-            int minY = r[1]*2; 
-            
-            int maxX = r[2]*2;
-            int maxY = r[3]*2;
-            
-            for(int i = minX+1; i<maxX ; i++){
-                for(int j =minY+1; j<maxY; j++){
-                    maps[i][j] = false;
-                }
+        for(int i =0; i<board.length; i++){
+            for(int j =0; j<board[i].length; j++){
+                 //System.out.println(i + " , " + j + " : " +board[i][j]);
             }
         }
         
-        //3. bfs 
-        Queue<int []> q = new LinkedList<>(); 
-        q.offer(new int []{characterX*2, characterY*2,0});
-        
-        int [] dx = {1,-1,0,0};
-        int [] dy = {0,0,1,-1};
-        
+        Queue<int []> q = new LinkedList<>();
+        q.offer(new int[]{characterX*2,characterY*2,0});
+        boolean [][] visited = new boolean [MAX_VALUE][MAX_VALUE];
         while(!q.isEmpty()){
             int [] current = q.poll();
             int x = current[0];
             int y = current[1];
-            int d = current[2];
+            int count = current[2];
+           
+            visited[x][y] = true;
+            if(x ==itemX*2 && y == itemY*2) return count/2;
             
-            //System.out.println(answer);
-            if(x==itemX*2 && y==itemY*2) return d/2;
+            //상하좌우
+            int[] dx = new int []{1,-1,0,0};
+            int[] dy = new int []{0,0,1,-1};
             
             for(int i =0; i<4; i++){
-                int nextX = x +dx[i];
-                int nextY = y + dy[i];
                 
-                if(nextX<0 || nextX>101 || nextY<0 || nextY >101 )continue;
+                int nx = x + dx[i];
+                int ny = y + dy[i];
                 
-                if(!visited[nextX][nextY]&&maps[nextX][nextY]){
-                    visited[nextX][nextY] = true;
-                    q.offer(new int[]{nextX, nextY, d+1});
+                if(nx>=0 && ny>=0 && nx<MAX_VALUE && ny<MAX_VALUE && board[nx][ny] == 1 && !visited[nx][ny]){
+                    q.offer(new int []{nx,ny,count+1});
                 }
             }
+            
         }
         
         return answer;
