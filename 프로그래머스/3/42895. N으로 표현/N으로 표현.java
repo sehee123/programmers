@@ -2,37 +2,38 @@ import java.util.*;
 
 class Solution {
     public int solution(int N, int number) {
-        if(N == number)return 1;
         
-        //1 : 5 
-        //2 : 55, 25, 1, 0
-        Set<Integer> [] arr = new HashSet [9];
-       
-        for(int i =1; i< 9; i++){
-            Set<Integer> set = new HashSet<>();
+        if(N == number) return 1;
+        
+        int answer = 0;
+        
+        List<Set<Integer>> list = new ArrayList<>();
+        for(int i= 0; i<=8; i++){
+            list.add(new HashSet<>());
+        }
+        
+        list.get(1).add(N);
+        
+        for(int i = 2; i<=8; i++){
             
-            int repeat = 0; 
-            for(int j =0; j<i; j++){
-                repeat = repeat*10 +N;                
-            }
-            set.add(repeat);
+            Set<Integer> currentSet = list.get(i);
+            currentSet.add(Integer.parseInt(String.valueOf(N).repeat(i)));
             
-            for(int j= 1; j<i; j++){
-                for(int a : arr[j]){
-                    for(int b: arr[i-j]){
-                        set.add(a+b);
-                        set.add(a-b);
-                        set.add(a*b);
-                        if(b != 0)set.add(a/b);
+            for(int j = 1; j<i; j++){
+                Set<Integer> set1 = list.get(j);
+                Set<Integer> set2 = list.get(i-j);
+                
+                for(int a : set1){
+                    for(int b : set2){
+                        currentSet.add(a*b);
+                        currentSet.add(a+b);
+                        currentSet.add(a-b);
+                        if(b !=0)currentSet.add(a / b);
                     }
                 }
             }
-            
-            if(set.contains(number)) return i;
-            arr[i] = set;
-            
+             if(currentSet.contains(number)) return i;
         }
-        
         
         return -1;
     }
